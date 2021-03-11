@@ -1,0 +1,3 @@
+([('sync_folder',
+   '/Users/hongyingzhao/TestAutomation/dropbox_test/dist/sync_folder',
+   'EXECUTABLE')],)
