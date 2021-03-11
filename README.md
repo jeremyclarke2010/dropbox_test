@@ -10,33 +10,30 @@ pip install pytest
 ```
 
 ## Checkout Code
-Using git command
+source code lives in: /dropbox_test/syncfolder/sync_folder.py
 ```
 git clone https://github.com/Amy-TestHub/dropbox_test.git
 ```
-source code lives in: /dropbox_test/syncfolder/sync_folder.py
 
 ## Create executable file
-From 'dropbox_test' root directory
+Compiled program stores in: **dropbox_test/dist/sync_folder**
 ```
 pyinstaller --onefile syncfolder/sync_folder.py
 ```
-Compiled program stores in: **dropbox_test/dist/sync_folder**
-
 
 ## Running the program
-From 'dropbox_test' root directory, using below command to run the program either as CLI or Python program. The program will a **one-off** upload job from client to server folder.
-Run as CLI program
+From 'dropbox_test' root directory, using below command to run the program either as CLI or Python program. The program will do a **one-off** upload job from client to server folder.
+- Run as CLI program
 ```
 ./dist/sync_folder
 ```
-Run as Python program
+- Run as Python program
 ```
 python3 syncfolder/sync_folder.py
 ```
 
 ## Input arguments
-The program takes 4 arguments, the last one is optional
+The program takes four arguments, the last one is optional
 - Source directory (client)
 - Destination directory (server)
 - Enable file deduplication? Yes/No
@@ -81,5 +78,5 @@ pytest syncfolder/test_sync_folder.py
 
 # Future enhancement
 - Improve the logic to ignore duplicate file upload WITHOUT rename the original file
-- Expand testing to include multiple file types and file permission testing
 - Run program from Window Task Scheduler/Corntab job, so that it can keep monitoring changes from client side
+- Expand testing to include multiple file types and file permission testing
