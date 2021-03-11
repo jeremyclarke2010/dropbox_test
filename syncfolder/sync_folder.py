@@ -61,4 +61,4 @@ if __name__ == "__main__":
         sync_job.dedupe_files()
     while True:
         sync_job.sync_folder()
-        time.sleep(10)
+        time.sleep(10) # Check for updates every 10s

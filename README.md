@@ -22,7 +22,7 @@ pyinstaller --onefile syncfolder/sync_folder.py
 ```
 
 ## Running the program
-From 'dropbox_test' root directory, using below command to run the program either as CLI or Python program.
+From 'dropbox_test' root directory, using below command to run the program either as CLI or Python program. Once program started, will perform a sync between client and server folder every 10s, until the process is terminated.
 - Run as CLI program
 ```
 ./dist/sync_folder
@@ -31,7 +31,6 @@ From 'dropbox_test' root directory, using below command to run the program eithe
 ```
 python3 syncfolder/sync_folder.py
 ```
-Once program started, will perform a sync between client and server folder every 10s, until the process is terminated.
 
 ## Input arguments
 The program takes four arguments, the last one is optional
