@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['sync_folder.py'],
+a = Analysis(['syncfolder/sync_folder.py'],
              pathex=['/Users/hongyingzhao/TestAutomation/dropbox_test'],
              binaries=[],
              datas=[],

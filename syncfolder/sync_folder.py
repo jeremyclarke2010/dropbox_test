@@ -20,13 +20,13 @@ class SyncFolder:
         return self.threshold
 
     def dedupe_files(self):
-        # Get files list from source directory, include sub directories
+        # Get all files from source directory, include sub directories
         file_list = []
         for (dirpath, dirnames, filenames) in walk(self.source_dir):
             file_path = (path.join(dirpath, file) for file in filenames)
             file_list.extend(file_path)
 
-        # Deduplicate files, ignore file with patially same contents over threshold
+        # Deduplicate files, ignore file with patially same contents over the threshold
         unique_files = []
         for filename in file_list:
             for item in unique_files:
@@ -49,13 +49,13 @@ class SyncFolder:
         sync(self.source_dir, self.dest_dir, 'sync', create = True, purge = True, content = True, ignore = pattern)
 
 if __name__ == "__main__":
-    # Enter source and destination directory from run time
+    # Input arguments from run time
     source_dir = pyinputplus.inputFilepath('Please enter source directory: ',mustExist=True)
     dest_dir = pyinputplus.inputFilepath('Please enter destination directory: ',mustExist=True)
     enable_dedupe = pyinputplus.inputYesNo('Enable same partial file deduplication? yes/no: ')
     # Sync folders
     sync_job = SyncFolder(source_dir,dest_dir,enable_dedupe)
     if enable_dedupe == 'yes':
-        sync_job.set_threshold()
+        sync_job.set_threshold() # Set threshold for dedupe
         sync_job.dedupe_files()
     sync_job.sync_folder()
