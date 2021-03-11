@@ -2,6 +2,7 @@ import pyinputplus
 from os import walk, path, rename
 from difflib import SequenceMatcher
 from dirsync import sync
+import time
 
 class SyncFolder:
 
@@ -58,4 +59,6 @@ if __name__ == "__main__":
     if enable_dedupe == 'yes':
         sync_job.set_threshold() # Set threshold for dedupe
         sync_job.dedupe_files()
-    sync_job.sync_folder()
+    while True:
+        sync_job.sync_folder()
+        time.sleep(10)

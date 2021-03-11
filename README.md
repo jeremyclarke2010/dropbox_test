@@ -22,7 +22,7 @@ pyinstaller --onefile syncfolder/sync_folder.py
 ```
 
 ## Running the program
-From 'dropbox_test' root directory, using below command to run the program either as CLI or Python program. The program will do a **one-off** upload job from client to server folder.
+From 'dropbox_test' root directory, using below command to run the program either as CLI or Python program.
 - Run as CLI program
 ```
 ./dist/sync_folder
@@ -31,6 +31,7 @@ From 'dropbox_test' root directory, using below command to run the program eithe
 ```
 python3 syncfolder/sync_folder.py
 ```
+Once program started, will perform a sync between client and server folder every 10s, until the process is terminated.
 
 ## Input arguments
 The program takes four arguments, the last one is optional
@@ -78,5 +79,5 @@ pytest syncfolder/test_sync_folder.py
 
 # Future enhancement
 - Improve the logic to ignore duplicate file upload WITHOUT rename the original file
-- Run program from Window Task Scheduler/Corntab job, so that it can keep monitoring changes from client side
+- New files added to client folder after program is started won't be checked for deduplication, will be upload to server regardless
 - Expand testing to include multiple file types and file permission testing
