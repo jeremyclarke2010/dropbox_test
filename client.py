@@ -6,7 +6,6 @@ import time
 class Client:
     def client_config(self):
         # Set source folder
-        # self.source = "./client"  # DEBUG
         while True:
             self.source = input("Source folder: ")
             if(os.path.exists(self.source)):
@@ -15,8 +14,6 @@ class Client:
                 print("Invalid file path!")
         
         # Set server ip and port
-        # self.ip = "192.168.86.20"  # DEBUG
-        # self.port = int(8080)  # DEBUG
         self.ip = input('Enter server ip: ')
         self.port = int(input('Enter server port: '))
 
@@ -43,6 +40,7 @@ class Client:
 
             # Sending request type to server
             self.s.send("add".encode())
+            print(self.s.recv(1024).decode())
 
             # Sending file data to server
             file_path = os.path.join(self.source, file)
@@ -67,6 +65,7 @@ class Client:
 
             # Sending request type to server
             self.s.send("delete".encode())
+            print(self.s.recv(1024).decode())
             print("Deleting file completed: ", file)
 
             # Start new thread for each file
@@ -107,7 +106,6 @@ class Client:
 
         # Rebase synced file list
         self.synced_files = self.local_files
-
 
 if __name__ == "__main__":
     client = Client()

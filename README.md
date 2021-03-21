@@ -5,6 +5,10 @@ Simple server - client type file syncing Python program, the synchronise is from
 ```
 git clone https://github.com/Amy-TestHub/dropbox_test.git
 ```
+## Assumptions
+- Both server and client are on the same network, or have public IP address
+- There is no router, firewall rule configured
+- Both source and destination folder has public right to read and write
 
 ## Running server
 Open executables in **dist** directory

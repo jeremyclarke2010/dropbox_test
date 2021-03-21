@@ -6,7 +6,6 @@ import threading
 class Server:
     def server_config(self):
         # Set destination folder
-        # self.dest = "./server"  # DEBUG
         while True:
             self.dest = input("Destination folder: ")
             if(os.path.exists(self.dest)):
@@ -18,7 +17,6 @@ class Server:
         self.ip = socket.gethostbyname(socket.gethostname())
         
         # Set port number for server to listen on
-        self.port = int(8080)  # DEBUG
         while True:
             try:
                 self.port = int(input("Enter port number: "))
@@ -52,22 +50,29 @@ class Server:
             return
         
         # Receiving request type from client
-        sync_type = self.c.recv(1024).decode()
-        if sync_type == "add":
-            # Adding file to server
-            with open(file_path, "wb") as f:
-                while True:
-                    file_data = self.c.recv(1024)
-                    if file_data == b'':
-                        break
-                    f.write(file_data)
-                f.close()
-            print("Receiving file completed: ", file_name)
-            return
-        elif sync_type == "delete":
-            # Deleting file from server
-            os.remove(file_path)
-            print("Deleting file completed: ",file_name)
+        try:
+            sync_type = self.c.recv(1024).decode()
+            self.c.send(f"{sync_type} file {file_name}".encode())
+            if sync_type == "add":
+                # Adding file to server
+                with open(file_path, "wb") as f:
+                    while True:
+                        file_data = self.c.recv(1024)
+                        if file_data == b'':
+                            break
+                        f.write(file_data)
+                    f.close()
+                print("Receiving file completed: ", file_name)
+                return
+            elif sync_type == "delete":
+                # Deleting file from server
+                os.remove(file_path)
+                print("Deleting file completed: ",file_name)
+                return
+            else:
+                print("Invalid sync type")
+                return
+        except ValueError:
             return
 
 if __name__ == "__main__":
@@ -76,3 +81,5 @@ if __name__ == "__main__":
     server.connect_client()
     while True:
         server.sync_folder()
+
+
