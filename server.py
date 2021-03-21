@@ -1,30 +1,31 @@
 import socket
 import os
-import time
 import threading
 
 
 class Server:
     def server_config(self):
         # Set destination folder
-        self.dest = "./server"  # DEBUG
-        # while True:
-        #     self.dest = input("Destination folder: ")
-        #     if(os.path.exists(self.dest)):
-        #         break
-        #     else:
-        #         print("Invalid file path!")
+        # self.dest = "./server"  # DEBUG
+        while True:
+            self.dest = input("Destination folder: ")
+            if(os.path.exists(self.dest)):
+                break
+            else:
+                print("Invalid file path!")
+        
         # Get server ip from system
         self.ip = socket.gethostbyname(socket.gethostname())
+        
         # Set port number for server to listen on
         self.port = int(8080)  # DEBUG
-        # while True:
-        #     try:
-        #         self.port = int(input("Enter port number: "))
-        #         if self.port in range(0, 65353):
-        #             break
-        #     except ValueError:
-        #         print("Invalid port number!")
+        while True:
+            try:
+                self.port = int(input("Enter port number: "))
+                if self.port in range(0, 65353):
+                    break
+            except ValueError:
+                print("Invalid port number!")
         print(f"Server will listen on {self.ip}: {self.port}")
 
     def connect_client(self):
@@ -35,49 +36,39 @@ class Server:
         print("Waiting for connection ... ")
 
     def sync_folder(self):
+        # Establish client connetion and sync folder
         while True:
-            # Establish client connetion
             self.c, self.addr = self.s.accept()
-            # print(self.addr, " is connected")
-            # self.c.send("Connected to server".encode())
-            # Sync folder
-            threading.Thread(target=self.add_files).start()
+            threading.Thread(target=self.sync_files).start()
 
-    def add_files(self):
-        # print("Syncing file to server ...")
-
-        # while True:
-
+    def sync_files(self):
+        # Receving file name from client
         file_name = self.c.recv(1024).decode()
-        # print("File name: ", file_name)
-        self.c.send(f"Sync file {file_name} to server.".encode())
-
+        self.c.send(f"Syncing file to server ...".encode())
+        
+        # Validate file name
         file_path = os.path.join(self.dest, file_name)
-        # print("File path: ", file_path)
-
         if os.path.isdir(file_path):
-            print(file_path, " is a directoty, ignore")
             return
-
-        # with open(file_path, "wb") as f:
-        #     file_data = self.c.recv(2097152)  # 2MB
-        #     # print("Received data: ", file_data)
-        #     f.write(file_data)
-        #     f.close()
-        #     print("Receiving file completed: ", file_name)
-
-        with open(file_path, "wb") as f:
-            while True:
-                file_data = self.c.recv(1024)
-                # print("Data batch: ", file_data)
-                if file_data == b'':
-                    # print("break loop")
-                    break
-                f.write(file_data)
-            f.close()
-        print("Receiving file completed: ", file_name)
-
-
+        
+        # Receiving request type from client
+        sync_type = self.c.recv(1024).decode()
+        if sync_type == "add":
+            # Adding file to server
+            with open(file_path, "wb") as f:
+                while True:
+                    file_data = self.c.recv(1024)
+                    if file_data == b'':
+                        break
+                    f.write(file_data)
+                f.close()
+            print("Receiving file completed: ", file_name)
+            return
+        elif sync_type == "delete":
+            # Deleting file from server
+            os.remove(file_path)
+            print("Deleting file completed: ",file_name)
+            return
 
 if __name__ == "__main__":
     server = Server()
@@ -85,4 +76,3 @@ if __name__ == "__main__":
     server.connect_client()
     while True:
         server.sync_folder()
-        time.sleep(10)
