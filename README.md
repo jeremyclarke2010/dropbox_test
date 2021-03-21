@@ -1,8 +1,7 @@
 # dropbox_test
-Simple server - client type file syncing Python program, the sync is from client to server only
+Simple server - client type file syncing Python program, the synchronise is from client to server only
 
 ## Checkout Code
-source code lives in: /dropbox_test/syncfolder/sync_folder.py
 ```
 git clone https://github.com/Amy-TestHub/dropbox_test.git
 ```
@@ -39,7 +38,7 @@ Enter server IP address, that displayed on server side
 ```
 Enter server IP:
 ```
-Enter server IP address, that displayed on server side
+Enter server port, that displayed on server side
 ```
 Enter server port:
 ```
@@ -56,7 +55,7 @@ Syncing file to server ...
 ```
 
 ## Exiting program
-Client will sync with server every 10s
+Client will sync with server every 10s. 
 Both server and client will run until terminated by user
 
 ## Future enhancement
