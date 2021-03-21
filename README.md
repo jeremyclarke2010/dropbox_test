@@ -1,7 +1,7 @@
 # dropbox_test
 Simple server - client type file syncing Python program, the synchronise is from client to server only
 
-## Checkout Code
+## Checkout code
 ```
 git clone https://github.com/Amy-TestHub/dropbox_test.git
 ```
