@@ -1,13 +1,5 @@
 # dropbox_test
-
-## Install support libraries
-This application was developed with Python v3.8.2
-```
-pip install pyinstaller
-pip install dirsync
-pip install --user pyinputplus
-pip install pytest
-```
+Simple server - client type file syncing Python program, the sync is from client to server only
 
 ## Checkout Code
 source code lives in: /dropbox_test/syncfolder/sync_folder.py
@@ -15,68 +7,59 @@ source code lives in: /dropbox_test/syncfolder/sync_folder.py
 git clone https://github.com/Amy-TestHub/dropbox_test.git
 ```
 
-## Create executable file
-Compiled program stores in: **dropbox_test/dist/sync_folder**
+## Running server
+Open executables in **dist** directory
 ```
-pyinstaller --onefile syncfolder/sync_folder.py
+./dist/server
 ```
-
-## Running the program
-From 'dropbox_test' root directory, using below command to run the program either as CLI or Python program. Once program started, will perform a sync between client and server folder every 10s, until the process is terminated.
-- Run as CLI program
+Enter an existing destination directory for files to sync to
 ```
-./dist/sync_folder
+Destination folder: 
 ```
-- Run as Python program
+Enter a port number that server will listening on
 ```
-python3 syncfolder/sync_folder.py
+Enter port number:
 ```
-
-## Input arguments
-The program takes four arguments, the last one is optional
-- Source directory (client)
-- Destination directory (server)
-- Enable file deduplication? Yes/No
-- If file deduplication is enabled, set a threshold between 0 and 100 (e.g. when threshold is set to 50, if a file shares over 50% of the same content with another file, this file will not be uploaded)
-
-### Examples
-- Sync whole repository without file deduplication check: 
+You shall see similar to below:
 ```
-Please enter source directory: /client
-Please enter destination directory: /server
-Enable same partial file deduplication? yes/no: no
-```
-- Ignore file has identical contents for upload: 
-```
-Please enter source directory: /client
-Please enter destination directory: /server
-Enable same partial file deduplication? yes/no: yes
-Please enter same partial file threshold, between 0 and 100: 100
-```
-- Ignore file has over 50% same contents with another file:
-```
-Please enter source directory: /client
-Please enter destination directory: /server
-Enable same partial file deduplication? yes/no: yes
-Please enter same partial file threshold, between 0 and 100: 50
-```
-**WARNING**: Ignored fill will be renamed with a '_ignore' suffix
-
-### Sync with network drive
-The program works over IP. Just map the network drive to a local folder, and ensure using the correct path. (e.g. '/Volumes/Shared Folder' is a network drive mapped to a local folder on Mac)
-
-# Run PyTest module
-Tests are created using PyTest Framework, test steps generally following below steps:
-- Create a new **client** folder, copy test files into the folder
-- Mock CLI input arguments by setting up variables
-- Running sync folder function, upload selected files to **server** folder
-- Validate files uploaded on the server side
-- Tear down tests, remove client and server folders created by the script
-```
-pytest syncfolder/test_sync_folder.py
+Server will listen on 192.168.16.10: 8080
+Waiting for connection ... 
 ```
 
-# Future enhancement
-- Improve the logic to ignore duplicate file upload WITHOUT rename the original file
-- New files added to client folder after program is started won't be checked for deduplication, will be upload to server regardless
-- Expand testing to include multiple file types and file permission testing
+## Running client
+Open executables in **dist** directory
+```
+./dist/client
+```
+Enter an existing source directory to sync with
+```
+Source folder: 
+```
+Enter server IP address, that displayed on server side
+```
+Enter server IP:
+```
+Enter server IP address, that displayed on server side
+```
+Enter server port:
+```
+You shall see similar to below:
+```
+Syncing file to server ...
+```
+Followed by any file in source folder will be send to server
+```
+Sending file completed:  test1.txt
+Syncing file to server ...
+Sending file completed:  test2.txt
+Syncing file to server ...
+```
+
+## Exiting program
+Client will sync with server every 10s
+Both server and client will run until terminated by user
+
+## Future enhancement
+- Enable server to client sync 
+- Doesn't sync files in sub-directories from the source folder
+- Image sync is flaky
